@@ -1,0 +1,32 @@
+﻿using AdvertisementApp.DataAccess.Context;
+using AdvertisementApp.DataAccess.İnterfaces;
+using AdvertisementApp.DataAccess.Repositories;
+using AdvertisementApp.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdvertisementApp.DataAccess.UnitOfWork
+{
+    public class Uow : IUow
+    {
+        private readonly AdvertisementContext _context;
+
+        public Uow(AdvertisementContext context)
+        {
+            _context = context;
+        }
+
+        public IRepository<T> GetRepository<T>() where T : BaseEntity 
+        {
+          return new Repository<T>(_context);
+        }
+
+        public async Task SaveChangesAsync() 
+        {
+           await _context.SaveChangesAsync();
+        }
+    }
+}
