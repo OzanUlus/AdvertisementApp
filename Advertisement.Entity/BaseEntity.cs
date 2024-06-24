@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advertisement.Entity
+namespace AdvertisementApp.Entity
 {
     public class BaseEntity
     {

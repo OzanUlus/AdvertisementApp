@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advertisement.Common
+namespace AdvertisementApp.Common
 {
     public class CustomValidationError
     {
