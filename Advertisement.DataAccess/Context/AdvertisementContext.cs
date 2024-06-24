@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,5 +25,11 @@ namespace AdvertisementApp.DataAccess.Context
         public DbSet<Gender> Genders{ get; set; }
         public DbSet<MilitaryStatus> MilitaryStatuses { get; set; }
         public DbSet<ProvidedService> ProvidedServices { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+        
     }
 }

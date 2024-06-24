@@ -1,0 +1,20 @@
+﻿using AdvertisementApp.Entity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdvertisementApp.DataAccess.Configurations
+{
+    public class GenderConfiguration : IEntityTypeConfiguration<Gender>
+    {
+        public void Configure(EntityTypeBuilder<Gender> builder)
+        {
+            builder.Property(g => g.Definition).HasMaxLength(30)
+                                                .IsRequired();
+        }
+    }
+}
