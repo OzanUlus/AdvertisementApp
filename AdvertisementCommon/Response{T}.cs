@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdvertisementApp.Common
 {
-    internal class Response<T> : Response , IResponse<T>
+    public class Response<T> : Response , IResponse<T>
     {
         public T Data { get; set; }
 
