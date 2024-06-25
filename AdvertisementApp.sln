@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisementApp.Business",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisementApp.Web", "AdvertisementApp.Web\AdvertisementApp.Web.csproj", "{37326FDB-731A-4BB8-AE14-2B5B00537303}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisementApp.Dtos", "AdvertisementApp.Dtos\AdvertisementApp.Dtos.csproj", "{48CCCE67-A772-455D-AC95-744CE503D310}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{37326FDB-731A-4BB8-AE14-2B5B00537303}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37326FDB-731A-4BB8-AE14-2B5B00537303}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37326FDB-731A-4BB8-AE14-2B5B00537303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48CCCE67-A772-455D-AC95-744CE503D310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48CCCE67-A772-455D-AC95-744CE503D310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48CCCE67-A772-455D-AC95-744CE503D310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48CCCE67-A772-455D-AC95-744CE503D310}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

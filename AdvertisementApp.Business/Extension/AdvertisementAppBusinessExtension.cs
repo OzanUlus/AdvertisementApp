@@ -1,5 +1,8 @@
-﻿using AdvertisementApp.DataAccess.Context;
+﻿using AdvertisementApp.Business.ValidationRules;
+using AdvertisementApp.DataAccess.Context;
 using AdvertisementApp.DataAccess.UnitOfWork;
+using AdvertisementApp.Dtos.ProvidedService;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -35,7 +38,8 @@ namespace AdvertisementApp.Business.Extension
             #endregion
 
             #region FluentValidation
-
+            services.AddTransient<IValidator<ProvidedServiceCreateDto>, ProvidedServiceCreateDtoValidator>();
+            services.AddTransient<IValidator<ProvidedServiceUpdateDto>, ProvidedServiceUpdateDtoValidator>();
             #endregion
 
 
