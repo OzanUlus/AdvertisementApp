@@ -1,4 +1,6 @@
-﻿using AdvertisementApp.Business.ValidationRules;
+﻿using AdvertisementApp.Business.Managers;
+using AdvertisementApp.Business.Services;
+using AdvertisementApp.Business.ValidationRules;
 using AdvertisementApp.DataAccess.Context;
 using AdvertisementApp.DataAccess.UnitOfWork;
 using AdvertisementApp.Dtos.ProvidedService;
@@ -34,7 +36,7 @@ namespace AdvertisementApp.Business.Extension
             #endregion
 
             #region Services
-
+            services.AddScoped<IProvidedServiceService,ProvidedServiceManager>();
             #endregion
 
             #region FluentValidation
