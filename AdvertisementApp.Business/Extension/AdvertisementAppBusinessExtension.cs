@@ -37,11 +37,14 @@ namespace AdvertisementApp.Business.Extension
 
             #region Services
             services.AddScoped<IProvidedServiceService,ProvidedServiceManager>();
+            services.AddScoped<IAdvertisementService,AdvertisementManager>();
             #endregion
 
             #region FluentValidation
             services.AddTransient<IValidator<ProvidedServiceCreateDto>, ProvidedServiceCreateDtoValidator>();
             services.AddTransient<IValidator<ProvidedServiceUpdateDto>, ProvidedServiceUpdateDtoValidator>();
+            services.AddTransient<IValidator<AdvertisementCreateDto>,AdvertisementCreateDtoValidator>();
+            services.AddTransient<IValidator<AdvertisementUpdateDto>, AdvertisementUpdateDtoValidator>();
             #endregion
 
 

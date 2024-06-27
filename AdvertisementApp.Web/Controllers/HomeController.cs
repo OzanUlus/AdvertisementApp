@@ -10,11 +10,13 @@ namespace AdvertisementApp.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProvidedServiceService _service;
+        private readonly IAdvertisementService _advertisingService;
 
-        public HomeController(ILogger<HomeController> logger, IProvidedServiceService service)
+        public HomeController(ILogger<HomeController> logger, IProvidedServiceService service, IAdvertisementService advertisingService)
         {
             _logger = logger;
             _service = service;
+            _advertisingService = advertisingService;
         }
 
         public async Task<IActionResult> Index()
@@ -24,7 +26,8 @@ namespace AdvertisementApp.Web.Controllers
         }
         public async Task<IActionResult> HumanResource()
         {
-            return View();
+            var responses = await _advertisingService.GetActiveAsync();
+            return this.ResponseView(responses);
         }
 
 
