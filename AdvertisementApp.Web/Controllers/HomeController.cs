@@ -22,16 +22,11 @@ namespace AdvertisementApp.Web.Controllers
             var datas = await _service.GetAllAsync();
             return this.ResponseView(datas);
         }
-
-        public IActionResult Privacy()
+        public async Task<IActionResult> HumanResource()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
     }
 }
