@@ -1,4 +1,4 @@
-﻿using AdvertisementApp.Dtos.ProvidedService;
+﻿using AdvertisementApp.Dtos;
 using AdvertisementApp.Entity;
 using System;
 using System.Collections.Generic;

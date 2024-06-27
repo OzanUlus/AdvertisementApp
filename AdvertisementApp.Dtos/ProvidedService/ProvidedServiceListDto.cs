@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvertisementApp.Dtos.ProvidedService
-{
+namespace AdvertisementApp.Dtos
+{ 
     public class ProvidedServiceListDto : IDto
     {
         public int Id { get; set; }
