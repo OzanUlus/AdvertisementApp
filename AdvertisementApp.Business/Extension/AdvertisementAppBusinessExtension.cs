@@ -35,9 +35,11 @@ namespace AdvertisementApp.Business.Extension
             services.AddScoped<IUow, Uow>();
             #endregion
 
-            #region Services
+            #region Services and Managers
             services.AddScoped<IProvidedServiceService,ProvidedServiceManager>();
             services.AddScoped<IAdvertisementService,AdvertisementManager>();
+            services.AddScoped<IAppUserService,AppUserManager>();
+            services.AddScoped<IGenderService,GenderManager>();
             #endregion
 
             #region FluentValidation
@@ -45,6 +47,10 @@ namespace AdvertisementApp.Business.Extension
             services.AddTransient<IValidator<ProvidedServiceUpdateDto>, ProvidedServiceUpdateDtoValidator>();
             services.AddTransient<IValidator<AdvertisementCreateDto>,AdvertisementCreateDtoValidator>();
             services.AddTransient<IValidator<AdvertisementUpdateDto>, AdvertisementUpdateDtoValidator>();
+            services.AddTransient<IValidator<AppUserCreateDto>, AppUserCreateDtoValidator>();
+            services.AddTransient<IValidator<AppUserUpdateDto>, AppUserUpdateDtoValidator>();
+            services.AddTransient<IValidator<GenderCreateDto>, GenderCreateDtoValidator>();
+            services.AddTransient<IValidator<GenderUpdateDto>, GenderUpdateDtoValidator>();
             #endregion
 
 
