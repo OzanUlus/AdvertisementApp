@@ -17,12 +17,13 @@ namespace AdvertisementApp.Web.Controllers
         private readonly IAppUserService _appUserService;
         private readonly IMapper _mapper;
 
-        public AccountController(IGenderService genderService, IValidator<UserCreateModel> userCreateValidator, IAppUserService appUserService, IMapper mapper)
+        public AccountController(IGenderService genderService, IValidator<UserCreateModel> userCreateValidator, IAppUserService appUserService, IMapper mapper, IValidator<AppUserLogInDto> appUserLoginClidator)
         {
             _genderService = genderService;
             _userCreateValidator = userCreateValidator;
             _appUserService = appUserService;
             _mapper = mapper;
+          
         }
 
         public async Task<IActionResult> SignUp()
@@ -49,6 +50,17 @@ namespace AdvertisementApp.Web.Controllers
             var genders = await _genderService.GetAllAsync();
             model.Genders = new SelectList(genders.Data, "Id", "Definition",model.GenderId);
             return View(model);
+        }
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SignIn(AppUserLogInDto appUserLogInDto)
+        {
+            
+           
+           return View(appUserLogInDto);
         }
     }
 }
