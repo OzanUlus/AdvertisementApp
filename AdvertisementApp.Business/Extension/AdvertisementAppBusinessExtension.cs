@@ -40,6 +40,8 @@ namespace AdvertisementApp.Business.Extension
             services.AddScoped<IAdvertisementService,AdvertisementManager>();
             services.AddScoped<IAppUserService,AppUserManager>();
             services.AddScoped<IGenderService,GenderManager>();
+            services.AddScoped<IGenderService,GenderManager>();
+            services.AddScoped<IAdvertisementAppUserService,AdvertisementAppUserManager>();
             #endregion
 
             #region FluentValidation

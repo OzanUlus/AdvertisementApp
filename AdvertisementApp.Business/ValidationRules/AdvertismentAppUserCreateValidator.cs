@@ -17,7 +17,7 @@ namespace AdvertisementApp.Business.ValidationRules
             RuleFor(a => a.AdvertisementAppUserStatusId).NotEmpty();
             RuleFor(a => a.AdvertisementId).NotEmpty();
            
-            RuleFor(a => a.CvFile).NotEmpty().WithMessage("Bir dosya şeçiniz");
+            RuleFor(a => a.CvPath).NotEmpty().WithMessage("Bir dosya şeçiniz");
             RuleFor(a => a.MilitaryStatusId).NotEmpty();
             RuleFor(a => a.EndDate).NotEmpty().When(a => a.MilitaryStatusId == (int)MilitaryStatusType.Tecilli).WithMessage("Tecil tarihi boş olamaz.");
            
