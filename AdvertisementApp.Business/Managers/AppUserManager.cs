@@ -20,11 +20,13 @@ namespace AdvertisementApp.Business.Managers
         private readonly IUow _uow;
         private readonly IMapper _mapper;
         private readonly IValidator<AppUserCreateDto> _appUserValidator;
-        public AppUserManager(IUow uow, IMapper mapper, IValidator<AppUserCreateDto> createValidator, IValidator<AppUserUpdateDto> updateValidator) : base(uow, mapper, createValidator, updateValidator)
+        private readonly IValidator<AppUserLogInDto> _appUserLogInValidator;
+        public AppUserManager(IUow uow, IMapper mapper, IValidator<AppUserCreateDto> createValidator, IValidator<AppUserUpdateDto> updateValidator, IValidator<AppUserLogInDto> appUserLogInValidator) : base(uow, mapper, createValidator, updateValidator)
         {
             _uow = uow;
             _mapper = mapper;
             _appUserValidator = createValidator;
+            _appUserLogInValidator = appUserLogInValidator;
         }
         public async Task<IResponse<AppUserCreateDto>> CreateWithRoleAsync(AppUserCreateDto appUserCreateDto,int roleId) 
         {
@@ -46,6 +48,29 @@ namespace AdvertisementApp.Business.Managers
 
             return new Response<AppUserCreateDto>(ResponseType.Success, appUserCreateDto);
 
+        }
+        public async Task<IResponse<AppUserListDto>> CheckUserAsync(AppUserLogInDto appUserLogInDto)
+        {
+            var loginResult = _appUserLogInValidator.Validate(appUserLogInDto);
+            if (!loginResult.IsValid) 
+                return new Response<AppUserListDto>(ResponseType.ValidationError, "Kullanıcı adı ve şifre boş bırakılamaz");
+
+            var user = await _uow.GetRepository<AppUser>().GetByFilterAsync(au => au.Username == appUserLogInDto.Username && au.Password == appUserLogInDto.Password);
+            if (user == null) return new Response<AppUserListDto>(ResponseType.NotFoubd, "Kullanıcı adı veya şifre hatalı");
+
+            var appUserDto = _mapper.Map<AppUserListDto>(user);
+
+            return new Response<AppUserListDto>(ResponseType.Success,appUserDto);
+            
+
+        }
+        public async Task<IResponse<List<AppRoleListDto>>> GetRolesUserIdAsync(int userId)
+        {
+            var roles = await _uow.GetRepository<AppRole>().GetAllAsync(ap => ap.AppUserRoles.Any(ap => ap.AppUserId == userId));
+            if (roles == null) return new Response<List<AppRoleListDto>>(ResponseType.NotFoubd, "role bulanamadı");
+
+            var dto = _mapper.Map<List<AppRoleListDto>>(roles);
+            return new Response<List<AppRoleListDto>>(ResponseType.Success, dto);
         }
     }
 }

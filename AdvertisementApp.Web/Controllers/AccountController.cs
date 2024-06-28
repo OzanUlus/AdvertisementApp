@@ -1,12 +1,16 @@
 ﻿using AdvertisementApp.Business.Services;
+using AdvertisementApp.Common;
 using AdvertisementApp.Common.Enums;
 using AdvertisementApp.Dtos;
 using AdvertisementApp.Web.Extension;
 using AdvertisementApp.Web.Models;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace AdvertisementApp.Web.Controllers
 {
@@ -23,14 +27,14 @@ namespace AdvertisementApp.Web.Controllers
             _userCreateValidator = userCreateValidator;
             _appUserService = appUserService;
             _mapper = mapper;
-          
+
         }
 
         public async Task<IActionResult> SignUp()
         {
             var genders = await _genderService.GetAllAsync();
             var model = new UserCreateModel();
-            model.Genders = new SelectList(genders.Data,"Id","Definition");
+            model.Genders = new SelectList(genders.Data, "Id", "Definition");
             return View(model);
         }
         [HttpPost]
@@ -40,7 +44,7 @@ namespace AdvertisementApp.Web.Controllers
             if (result.IsValid)
             {
                 var dto = _mapper.Map<AppUserCreateDto>(model);
-               var createResponse = await _appUserService.CreateWithRoleAsync(dto,(int)RoleType.Member);
+                var createResponse = await _appUserService.CreateWithRoleAsync(dto, (int)RoleType.Member);
                 return this.ResponseRedirectAction(createResponse, "SignIn");
             }
             foreach (var error in result.Errors)
@@ -48,7 +52,7 @@ namespace AdvertisementApp.Web.Controllers
                 ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
             }
             var genders = await _genderService.GetAllAsync();
-            model.Genders = new SelectList(genders.Data, "Id", "Definition",model.GenderId);
+            model.Genders = new SelectList(genders.Data, "Id", "Definition", model.GenderId);
             return View(model);
         }
         public IActionResult SignIn()
@@ -56,11 +60,50 @@ namespace AdvertisementApp.Web.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SignIn(AppUserLogInDto appUserLogInDto)
+        public async Task<IActionResult> SignIn(AppUserLogInDto appUserLogInDto)
         {
-            
-           
-           return View(appUserLogInDto);
+            var result = await _appUserService.CheckUserAsync(appUserLogInDto);
+            if (result.ResponseType == ResponseType.Success)
+            {
+                var roleResult = await _appUserService.GetRolesUserIdAsync(result.Data.Id);
+                //ilgili kullanıcının rollerini çekmemiz gerekiyor
+                var claims = new List<Claim>();
+
+                if (roleResult.ResponseType == ResponseType.Success)
+                {
+                    foreach (var role in roleResult.Data)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role.Definition));
+                    }
+                }
+
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, result.Data.Id.ToString()));
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+
+                    IsPersistent = appUserLogInDto.RenemberMe,
+
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                return RedirectToAction("Index", "Home");
+            }
+            ModelState.AddModelError("Kullanıcı adı veya şifre hatalı", result.Message);
+
+            return View(appUserLogInDto);
+        }
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }

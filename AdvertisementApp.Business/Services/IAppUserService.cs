@@ -12,5 +12,7 @@ namespace AdvertisementApp.Business.Services
     public interface IAppUserService : IService<AppUserCreateDto, AppUserUpdateDto,AppUserListDto,AppUser>
     {
         Task<IResponse<AppUserCreateDto>> CreateWithRoleAsync(AppUserCreateDto appUserCreateDto, int roleId);
+        Task<IResponse<AppUserListDto>> CheckUserAsync(AppUserLogInDto appUserLogInDto);
+        Task<IResponse<List<AppRoleListDto>>> GetRolesUserIdAsync(int userId);
     }
 }
