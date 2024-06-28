@@ -52,6 +52,7 @@ namespace AdvertisementApp.Business.Extension
             services.AddTransient<IValidator<AppUserUpdateDto>, AppUserUpdateDtoValidator>();
             services.AddTransient<IValidator<GenderCreateDto>, GenderCreateDtoValidator>();
             services.AddTransient<IValidator<GenderUpdateDto>, GenderUpdateDtoValidator>();
+            services.AddTransient<IValidator<AdvertisementAppUserCreateDto>, AdvertismentAppUserCreateValidator>();
             #endregion
 
 
