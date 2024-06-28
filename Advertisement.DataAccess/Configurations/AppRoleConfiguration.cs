@@ -15,21 +15,21 @@ namespace AdvertisementApp.DataAccess.Configurations
         {
             builder.Property(ar => ar.Definition).IsRequired()
                                                  .HasMaxLength(300);
-            //builder.HasData(new AppRole[]
-            //{
-            //  new()
-            //  {
-            //    Definition = "admin",
-            //    Id = 1,
+            builder.HasData(new AppRole[]
+            {
+              new()
+              {
+                Definition = "Admin",
+                Id = 1,
 
-            //  },
-            //  new()
-            //  {
-            //    Definition = "member",
-            //    Id = 2,
-            //  }
+              },
+              new()
+              {
+                Definition = "Member",
+                Id = 2,
+              }
 
-            //});
+            });
         }
     }
 }

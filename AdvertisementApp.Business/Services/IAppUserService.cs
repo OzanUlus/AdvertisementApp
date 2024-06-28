@@ -1,4 +1,5 @@
-﻿using AdvertisementApp.Dtos;
+﻿using AdvertisementApp.Common;
+using AdvertisementApp.Dtos;
 using AdvertisementApp.Entity;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace AdvertisementApp.Business.Services
 {
     public interface IAppUserService : IService<AppUserCreateDto, AppUserUpdateDto,AppUserListDto,AppUser>
     {
+        Task<IResponse<AppUserCreateDto>> CreateWithRoleAsync(AppUserCreateDto appUserCreateDto, int roleId);
     }
 }

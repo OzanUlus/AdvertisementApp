@@ -1,5 +1,9 @@
 ﻿using AdvertisementApp.Business.Services;
+using AdvertisementApp.Common.Enums;
+using AdvertisementApp.Dtos;
+using AdvertisementApp.Web.Extension;
 using AdvertisementApp.Web.Models;
+using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,11 +14,15 @@ namespace AdvertisementApp.Web.Controllers
     {
         private readonly IGenderService _genderService;
         private readonly IValidator<UserCreateModel> _userCreateValidator;
+        private readonly IAppUserService _appUserService;
+        private readonly IMapper _mapper;
 
-        public AccountController(IGenderService genderService, IValidator<UserCreateModel> userCreateValidator)
+        public AccountController(IGenderService genderService, IValidator<UserCreateModel> userCreateValidator, IAppUserService appUserService, IMapper mapper)
         {
             _genderService = genderService;
             _userCreateValidator = userCreateValidator;
+            _appUserService = appUserService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> SignUp()
@@ -30,7 +38,9 @@ namespace AdvertisementApp.Web.Controllers
             var result = _userCreateValidator.Validate(model);
             if (result.IsValid)
             {
-                return View(model);
+                var dto = _mapper.Map<AppUserCreateDto>(model);
+               var createResponse = await _appUserService.CreateWithRoleAsync(dto,(int)RoleType.Member);
+                return this.ResponseRedirectAction(createResponse, "SignIn");
             }
             foreach (var error in result.Errors)
             {

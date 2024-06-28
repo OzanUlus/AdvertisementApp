@@ -2,6 +2,7 @@ using AdvertisementApp.Business.Extension;
 using AdvertisementApp.Web.Models;
 using AdvertisementApp.Web.ValidationRules;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddBusinesExtension(builder.Configuration.GetConnectionString("SqlCon")!,Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IValidator<UserCreateModel>,UserCreateModelValidator>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(opt =>
+    {
+        opt.Cookie.Name = "AdvertisementApp";
+        opt.Cookie.HttpOnly = true;
+        opt.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+        opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        opt.ExpireTimeSpan = TimeSpan.FromDays(14);
+        opt.LoginPath = new PathString("/Account/SignIn");
+        opt.LogoutPath = new PathString("/Account/LogOut");
+        opt.AccessDeniedPath = new PathString("/Account/AccessDenied");
+    });
 
 var app = builder.Build();
 
@@ -26,6 +40,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
