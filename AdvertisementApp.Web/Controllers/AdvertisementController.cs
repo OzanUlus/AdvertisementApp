@@ -108,5 +108,27 @@ namespace AdvertisementApp.Web.Controllers
             var list = await _advertisementAppUserService.GetList(AdvertisementAppUserStatusType.Başvurdu);
             return View(list);
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SetStatus(int advertisementAppUserId , AdvertisementAppUserStatusType type)
+        {
+            await _advertisementAppUserService.SetStatus(advertisementAppUserId, type);
+           
+            return RedirectToAction("List");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ApprovedList()
+        {
+            var list = await _advertisementAppUserService.GetList(AdvertisementAppUserStatusType.Mülakata);
+            return View(list);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectedList()
+        {
+            var list = await _advertisementAppUserService.GetList(AdvertisementAppUserStatusType.Olumsuz);
+            return View(list);
+        }
     }
 }

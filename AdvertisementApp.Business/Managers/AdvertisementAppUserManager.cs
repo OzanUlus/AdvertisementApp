@@ -36,7 +36,7 @@ namespace AdvertisementApp.Business.Managers
                 return new Response<AdvertisementAppUserCreateDto>(advertisementAppUserCreateDto, result.ConvertToCustomValidationError());
 
             var control = await _uow.GetRepository<AdvertisementAppUser>().GetByFilterAsync(a => a.AppUserId == advertisementAppUserCreateDto.AppUserId && a.AdvertisementId == advertisementAppUserCreateDto.AdvertisementId);
-            
+
             if (control == null)
             {
                 var createdAdvertisementAppUser = _mapper.Map<AdvertisementAppUser>(advertisementAppUserCreateDto);
@@ -45,17 +45,25 @@ namespace AdvertisementApp.Business.Managers
                 return new Response<AdvertisementAppUserCreateDto>(ResponseType.Success, advertisementAppUserCreateDto);
             }
 
-            List<CustomValidationError> errors = new List<CustomValidationError> { new CustomValidationError {PropertyName="", ErrorMessage = "Daha önce başvuru yapılan işe başvuru yapamazsınız" } };
-            return new Response<AdvertisementAppUserCreateDto>(advertisementAppUserCreateDto, errors);  
+            List<CustomValidationError> errors = new List<CustomValidationError> { new CustomValidationError { PropertyName = "", ErrorMessage = "Daha önce başvuru yapılan işe başvuru yapamazsınız" } };
+            return new Response<AdvertisementAppUserCreateDto>(advertisementAppUserCreateDto, errors);
         }
 
-        public async Task<List<AdvertisementAppUserListDto>> GetList(AdvertisementAppUserStatusType statusType) 
+        public async Task<List<AdvertisementAppUserListDto>> GetList(AdvertisementAppUserStatusType statusType)
         {
             var query = _uow.GetRepository<AdvertisementAppUser>().GetQueryable();
 
-           var list = await query.Include(a => a.Advertisement).Include(a => a.AdvertisementAppUserStatus).Include(a => a.MilitaryStatus).Include(a => a.AppUser).ThenInclude(au => au.Gender).Where(a => a.AdvertisementAppUserStatusId == (int)statusType).ToListAsync();
+            var list = await query.Include(a => a.Advertisement).Include(a => a.AdvertisementAppUserStatus).Include(a => a.MilitaryStatus).Include(a => a.AppUser).ThenInclude(au => au.Gender).Where(a => a.AdvertisementAppUserStatusId == (int)statusType).ToListAsync();
 
             return _mapper.Map<List<AdvertisementAppUserListDto>>(list);
+        }
+        public async Task SetStatus(int advertisementAppUserId, AdvertisementAppUserStatusType type)
+        {
+            var query = _uow.GetRepository<AdvertisementAppUser>().GetQueryable();
+            var entity = await query.SingleOrDefaultAsync(a => a.Id == advertisementAppUserId);
+            entity.AdvertisementAppUserStatusId = (int)type;
+            await _uow.SaveChangesAsync();
+
         }
     }
 }

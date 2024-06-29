@@ -1,6 +1,6 @@
 ﻿@model List<AdvertisementAppUserListDto>
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "ApprovedList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
         if (Model?.Count > 0)
         {
             <div class="text-end my-3 p-1">
-                <a asp-action="ApprovedList" asp-controller="Advertisement">Mülakata Çağrılan Başvurular</a> |
+                <a asp-action="List" asp-controller="Advertisement">Başvurular</a> |
                 <a asp-action="RejectedList" asp-controller="Advertisement">Reddedilen Başvurular</a>
             </div>
 
@@ -39,7 +39,7 @@
                             <td>@(advertisementAppUser.EndDate==null?"Muaf yada yapmış":advertisementAppUser.EndDate?.ToString("dddd, dd MMMM yyyy"))</td>
                             <td>@advertisementAppUser.WorkExperience</td>
                             <td>
-                                <a class="btn btn-outline-success" asp-action="SetStatus" asp-controller="Advertisement" asp-route-advertisementAppUserId="@advertisementAppUser.Id" asp-route-type="@((int)AdvertisementAppUserStatusType.Mülakata)">Mülakata Çağır</a> |
+                               
                                 <a class="btn btn-outline-danger" asp-action="SetStatus" asp-controller="Advertisement" asp-route-advertisementAppUserId="@advertisementAppUser.Id" asp-route-type="@((int)AdvertisementAppUserStatusType.Olumsuz)">Reddet</a>
                             </td>
                         </tr>
@@ -61,3 +61,4 @@
 
 
 </div>
+

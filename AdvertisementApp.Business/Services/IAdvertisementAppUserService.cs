@@ -13,5 +13,6 @@ namespace AdvertisementApp.Business.Services
     {
         Task<IResponse<AdvertisementAppUserCreateDto>> CreateAsync(AdvertisementAppUserCreateDto advertisementAppUserCreateDto);
         Task<List<AdvertisementAppUserListDto>> GetList(AdvertisementAppUserStatusType statusType);
+        Task SetStatus(int advertisementAppUserId, AdvertisementAppUserStatusType type);
     }
 }
