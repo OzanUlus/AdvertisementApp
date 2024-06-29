@@ -32,17 +32,19 @@
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="SignUp">Kayıt Ol</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="SignIn">Giriş Yap</a></li>
 
-                        
-                            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="HumanResource">İnsan Kaynakları</a></li>
-                        
+
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="HumanResource">İnsan Kaynakları</a></li>
+
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="LogOut">Çıkış Yap</a></li>
+
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item"><a class="nav-link" asp-controller="Advertisement" asp-action="List">İş İlanları</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Application" asp-action="List">İş İlanları</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Advertisement" asp-action="List">Başvurular</a></li>
                         }
+                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="LogOut">Çıkış Yap</a></li>
                     }
 
 
