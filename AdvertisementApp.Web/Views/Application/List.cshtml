@@ -32,8 +32,8 @@
                             <td>@(advertisement.Status?"Aktif":"Pasif") </td>
 
                             <td>
-                                <a class="btn btn-outline-warning" asp-action="SetStatus" asp-controller="Advertisement" asp-route-advertisementId="@advertisement.Id">Güncelle</a>
-                                <a class="btn btn-outline-danger" asp-action="SetStatus" asp-controller="Advertisement" asp-route-advertisementId="@advertisement.Id">Sil</a>
+                                <a class="btn btn-outline-warning" asp-action="Update" asp-controller="Application" asp-route-advertisementId="@advertisement.Id">Güncelle</a>
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-controller="Application" asp-route-advertisementId="@advertisement.Id">Sil</a>
                             </td>
                         </tr>
                     }
